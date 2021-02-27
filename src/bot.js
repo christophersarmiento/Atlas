@@ -14,6 +14,10 @@ class Atlas extends AkairoClient {
 
     this.settings = new MongooseProvider(model);
 
+    this.constants = {
+      infoEmbed: [155, 300, 200]
+    }
+
     this.commandHandler = new CommandHandler(this, {
       directory: './commands/',
       prefix: (message) => {
