@@ -1,0 +1,26 @@
+{
+  "name": "atlas",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./src/bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christophersarmiento/Atlas.git"
+  },
+  "author": "Christopher Sarmiento <chris@topher.ai> (https://topher.ai)",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/christophersarmiento/Atlas/issues"
+  },
+  "homepage": "https://github.com/christophersarmiento/Atlas#readme",
+  "dependencies": {
+    "discord-akairo": "^8.1.0",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "moment": "^2.29.1",
+    "mongoose": "^5.11.18"
+  }
+}
