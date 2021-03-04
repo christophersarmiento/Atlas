@@ -1,5 +1,7 @@
-require('dotenv').config();
-const model = require('./models/model');
+const path = require('path');
+require('dotenv').config({path: path.resolve(__dirname, '.env')});
+
+const model = require(path.resolve(__dirname, 'models/model.js'));
 
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, MongooseProvider } = require('discord-akairo');
 const mongoose = require('mongoose');
@@ -19,7 +21,7 @@ class Atlas extends AkairoClient {
     }
 
     this.commandHandler = new CommandHandler(this, {
-      directory: './commands/',
+      directory: path.resolve(__dirname, 'commands'),
       prefix: (message) => {
         if (message.guild) {
           return this.settings.get(message.guild.id, 'prefix', '.');
@@ -30,11 +32,11 @@ class Atlas extends AkairoClient {
     });
 
     this.inhibitorHandler = new InhibitorHandler(this, {
-      directory: './inhibitors/'
+      directory: path.resolve(__dirname, 'inhibitors')
     });
     
     this.listenerHandler = new ListenerHandler(this, {
-      directory: './listeners/'
+      directory: path.resolve(__dirname, 'listeners')
     });
 
     this.commandHandler.loadAll();

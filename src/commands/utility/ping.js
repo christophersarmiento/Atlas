@@ -6,7 +6,10 @@ class PingCommand extends Command {
   constructor() {
     super('ping', {
       aliases: ['ping'],
-      category: 'util'
+      category: 'utility',
+      description: {
+        content: 'Displays Atlas\'s heartbeat and latency.',
+      },
     });
   }
 
