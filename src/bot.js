@@ -5,6 +5,7 @@ const model = require(path.resolve(__dirname, 'models/model.js'));
 
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, MongooseProvider } = require('discord-akairo');
 const mongoose = require('mongoose');
+const { MessageEmbed } = require('discord.js');
 
 class Atlas extends AkairoClient {
   constructor() {
@@ -17,8 +18,12 @@ class Atlas extends AkairoClient {
     this.settings = new MongooseProvider(model);
 
     this.constants = {
-      infoEmbed: [155, 300, 200]
+      infoEmbed: [155, 300, 200],
+      errorEmbed: [255, 0, 0],
+      successEmbed: [0, 255, 0]
     }
+
+    this.failure = new MessageEmbed().setColor(this.constants.errorEmbed).setDescription('Uh oh! Something went wrong.');
 
     this.commandHandler = new CommandHandler(this, {
       directory: path.resolve(__dirname, 'commands'),
