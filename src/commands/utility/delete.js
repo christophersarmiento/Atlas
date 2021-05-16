@@ -6,10 +6,12 @@ class DeleteCommand extends Command {
     super('delete', {
       aliases: ['delete', 'purge'],
       category: 'utility',
+      userPermissions: ['MANAGE_MESSAGES'],
+      clientPermissions: ['MANAGE_MESSAGES'],
       description: {
         content: 'Deletes a specified amount of messages in a channel.',
         usage: ['<1-99>'],
-        examples: ['10']
+        examples: ['10'],
       },
       args: [
         {

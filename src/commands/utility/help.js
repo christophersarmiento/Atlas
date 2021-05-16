@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 
 let emojis = new Map();
 emojis.set('utility', '🔧');
+emojis.set('fun','😄');
 
 class HelpCommand extends Command {
   constructor() {
@@ -33,7 +34,7 @@ class HelpCommand extends Command {
       .setDescription(`${command.description.content ? command.description.content : ''} ${command.description.ownerOnly ? '\n**[Owner Only]**': ''}`);
 
       if (command.description.usage){
-        embed.addField('Usage', `\`${command.aliases[0] + ' ' +  command.description.usage.join(' ')}\``)
+        embed.addField('Usage', `\`${command.aliases[0] + ' ' +  command.description.usage.join(' | ')}\``)
       }
       else {
         embed.addField('Usage', `\`${command.aliases[0]}\``)

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "node ./src/bot.js" ,
+    "start": "node ./src/bot.js",
     "dev": "nodemon ./src/bot.js"
   },
   "repository": {
@@ -19,9 +19,11 @@
   "homepage": "https://github.com/christophersarmiento/Atlas#readme",
   "dependencies": {
     "discord-akairo": "^8.1.0",
+    "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "moment": "^2.29.1",
-    "mongoose": "^5.11.18"
+    "mongoose": "^5.11.18",
+    "readint": "^0.2.2"
   }
 }
