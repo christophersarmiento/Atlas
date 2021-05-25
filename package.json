@@ -23,7 +23,8 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "moment": "^2.29.1",
-    "mongoose": "^5.11.18",
+    "mongodb": "^3.6.8",
+    "mongoose": "^5.12.11",
     "readint": "^0.2.2"
   }
 }
