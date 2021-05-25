@@ -74,7 +74,7 @@ class QuoteCommand extends Command {
 
     // add quote
     if (args.add && !args.remove && !args.list && !args.index && !args.search && !args.purge) {
-      if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) {
+      if (!message.member.hasPermission("MANAGE_MESSAGES")) {
         return message.channel.send(`Sorry, you do not have the \`Manage Messages\` permisson.`);
       }
       let quote = args.quote.trim();
@@ -117,7 +117,7 @@ class QuoteCommand extends Command {
 
     // quote remove
     if (args.remove && !args.add && !args.list && args.index && !args.search && !args.purge) {
-      if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) {
+      if (!message.member.hasPermission("MANAGE_MESSAGES")) {
         return message.channel.send(`Sorry, you do not have the \`Manage Messages\` permisson.`);
       }
       if (args.index != undefined) {
@@ -173,7 +173,7 @@ class QuoteCommand extends Command {
 
     // quote purge
     if (args.purge && !args.add && !args.remove && !args.list && !args.index && !args.search) {
-      if (!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) {
+      if (!message.member.hasPermission("MANAGE_MESSAGES")) {
         return message.channel.send(`Sorry, you do not have the \`Manage Messages\` permisson.`);
       }
       let query = new RegExp(`${args.quote}`, "i");
