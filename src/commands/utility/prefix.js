@@ -30,8 +30,7 @@ class PrefixCommand extends Command {
       return message.channel.send(`Prefix changed from \`${old_prefix}\` to \`${args.prefix}\``);
     }
 
-    return message.channel.send(`Sorry, you do not have permisson to do that.`);
-    
+    return message.channel.send(`Sorry, you do not have the \`Administrator\` permisson.`);
   }
 }
 
