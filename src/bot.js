@@ -3,13 +3,7 @@ require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 
 const model = require(path.resolve(__dirname, "models/model.js"));
 
-const {
-  AkairoClient,
-  CommandHandler,
-  InhibitorHandler,
-  ListenerHandler,
-  MongooseProvider,
-} = require("discord-akairo");
+const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, MongooseProvider } = require("discord-akairo");
 const mongoose = require("mongoose");
 const { MessageEmbed } = require("discord.js");
 
@@ -66,6 +60,12 @@ class Atlas extends AkairoClient {
 
     this.inhibitorHandler.loadAll();
     this.listenerHandler.loadAll();
+  }
+
+  async error_message(message) {
+    return new MessageEmbed()
+      .setColor(this.constants.errorEmbed)
+      .setDescription(message);
   }
 
   async login(token) {
