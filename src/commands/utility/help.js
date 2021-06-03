@@ -4,6 +4,7 @@ const { MessageEmbed } = require('discord.js');
 let emojis = new Map();
 emojis.set('utility', '🔧');
 emojis.set('fun','😄');
+emojis.set('code', '💻');
 
 class HelpCommand extends Command {
   constructor() {
@@ -33,11 +34,21 @@ class HelpCommand extends Command {
       .setTitle(`${command.aliases[0]}`)
       .setDescription(`${command.description.content ? command.description.content : ''} ${command.description.ownerOnly ? '\n**[Owner Only]**': ''}`);
 
-      if (command.description.usage){
+      if (command.description.languages) {
+        embed.addField("Languages", `\`${Object.keys(command.description.languages).join("`, `")}\``, true);
+        embed.setFooter(`For additional information about a language, do ${this.client.settings.get(message.guild.id, 'prefix', '.')}version <language>`)
+      }
+      
+      if (command.description.usage && command.aliases[0] != 'execute'){
         embed.addField('Usage', `\`${command.aliases[0] + ' ' +  command.description.usage.join(' | ')}\``)
       }
-      else {
-        embed.addField('Usage', `\`${command.aliases[0]}\``)
+      else if (command.description.usage && command.aliases[0] == "execute") {
+        embed.addField(
+          "Usage",
+          `\`\`\`${command.aliases[0] + " " + command.description.usage.join(" | ")}\`\`\``
+        );
+      } else {
+        embed.addField("Usage", `\`${command.aliases[0]}\``);
       }
       
       if (command.description.examples && command.description.examples.length) {
