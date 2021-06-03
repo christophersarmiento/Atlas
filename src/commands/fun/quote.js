@@ -2,67 +2,59 @@ const { Command } = require("discord-akairo");
 const { MessageEmbed } = require("discord.js");
 const Pagination = require("discord-paginationembed");
 
-// TODO: manage permissions for certain arguments
 class QuoteCommand extends Command {
   constructor() {
     super("quote", {
       aliases: ["quote", "q"],
       category: "fun",
       description: {
-        content:
-          "Displays a random quote from the server.",
+        content: "Displays a random quote from the server.",
         usage: ["add <quote>", "remove <quote number>", "<quote number>", "search <query>", "list"],
-        examples: [
-          'add "The unexamined life is not worth living." - Socrates',
-          "remove 12",
-          "2",
-          "search socrates",
-          "list",
-        ],
+        examples: ['add "The unexamined life is not worth living." - Socrates', "remove 12", "2", "search socrates", "list"]
       },
       args: [
         {
           id: "add",
           type: "string",
           match: "flag",
-          flag: "add",
+          flag: "add"
         },
         {
           id: "list",
           type: "string",
           match: "flag",
-          flag: "list",
+          flag: "list"
         },
         {
           id: "remove",
           type: "string",
           match: "flag",
-          flag: "remove",
+          flag: "remove"
         },
         {
           id: "search",
           type: "string",
           match: "flag",
-          flag: "search",
+          flag: "search"
         },
         {
           id: "purge",
           type: "string",
           match: "flag",
-          flag: "purge",
+          flag: "purge"
         },
         {
           id: "index",
           type: "integer",
-          index: 0,
+          index: 0
         },
         {
           id: "quote",
           type: "string",
-          match: "rest",
-        },
+          match: "rest"
+        }
       ],
-      channel: "text",
+      channel: "text"
     });
   }
 
@@ -121,7 +113,6 @@ class QuoteCommand extends Command {
         return message.channel.send(`Sorry, you do not have the \`Manage Messages\` permisson.`);
       }
       if (args.index != undefined) {
-        console.log("triggered");
         let index = args.index - 1;
         if (index >= 0 && index < allQuotes.length) {
           allQuotes.splice(index, 1);
@@ -137,8 +128,7 @@ class QuoteCommand extends Command {
         } else {
           return message.channel.send(`Please enter a number between 1 and ${allQuotes.length}`);
         }
-      }
-      else {
+      } else {
         console.log("args index not found");
       }
       return;
@@ -163,10 +153,7 @@ class QuoteCommand extends Command {
 
         await QuoteList.build();
       } else {
-        let msg = new MessageEmbed()
-          .setColor(this.client.constants.infoEmbed)
-          .setDescription(`Could not find any quotes matching \`${args.quote}\``)
-          .setTitle("404!");
+        let msg = new MessageEmbed().setColor(this.client.constants.infoEmbed).setDescription(`Could not find any quotes matching \`${args.quote}\``).setTitle("404!");
         return message.channel.send(msg);
       }
     }
@@ -197,11 +184,7 @@ class QuoteCommand extends Command {
             });
             this.client.settings
               .set(message.guild.id, "quotes", allQuotes)
-              .then(() =>
-                message.channel
-                  .send(`Successfully removed ${matches.length} quotes`)
-                  .then((m) => m.delete({ timeout: 3000 }))
-              )
+              .then(() => message.channel.send(`Successfully removed ${matches.length} quotes`).then((m) => m.delete({ timeout: 3000 })))
               .catch(() => {
                 message.channel.send(this.client.failure);
               });
@@ -211,10 +194,7 @@ class QuoteCommand extends Command {
 
         await QuoteList.build();
       } else {
-        let msg = new MessageEmbed()
-          .setColor(this.client.constants.infoEmbed)
-          .setDescription(`Could not find any quotes matching \`${args.quote}\``)
-          .setTitle("404!");
+        let msg = new MessageEmbed().setColor(this.client.constants.infoEmbed).setDescription(`Could not find any quotes matching \`${args.quote}\``).setTitle("404!");
         return message.channel.send(msg);
       }
     }
