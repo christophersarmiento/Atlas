@@ -1,10 +1,10 @@
-const { Inhibitor } = require('discord-akairo');
+const { Inhibitor } = require("discord-akairo");
 
 class DenylistInhibitor extends Inhibitor {
   constructor() {
-    super('denylist', {
-      reason: 'denylist'
-    })
+    super("denylist", {
+      reason: "denylist"
+    });
   }
 
   exec(message) {

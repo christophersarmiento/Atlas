@@ -1,0 +1,11 @@
+node_modules
+package-lock.json
+package.json
+yarn.lock
+
+.gitignore
+.env
+
+.dockerignore
+Dockerfile
+LICENSE
