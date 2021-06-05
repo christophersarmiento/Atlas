@@ -4,7 +4,7 @@ class GuildMemberAddListener extends Listener {
   constructor() {
     super("guildMemberAdd", {
       emitter: "client",
-      event: "guildMemberAdd",
+      event: "guildMemberAdd"
     });
   }
 

@@ -1,10 +1,10 @@
-const { Listener } = require('discord-akairo');
+const { Listener } = require("discord-akairo");
 
 class CommandBlockedListener extends Listener {
   constructor() {
-    super('commandBlocked', {
-      emitter: 'commandHandler',
-      event: 'commandBlocked'
+    super("commandBlocked", {
+      emitter: "commandHandler",
+      event: "commandBlocked"
     });
   }
 

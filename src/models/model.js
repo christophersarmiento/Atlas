@@ -5,16 +5,16 @@ const guild_schema = new schema(
   {
     id: {
       type: String,
-      required: true,
+      required: true
     },
     settings: {
       type: Object,
-      required: true,
+      required: true
     },
     quotes: {
       type: [String],
-      required: true,
-    },
+      required: true
+    }
   },
   { minimize: false }
 );
