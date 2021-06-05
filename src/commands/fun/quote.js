@@ -132,6 +132,9 @@ class QuoteCommand extends Command {
 
     // quote search
     if (args.search && !args.add && !args.remove && !args.list && !args.index && !args.purge) {
+      if (!args.quote) {
+        return message.channel.send("Please add a search query.");
+      }
       let query = new RegExp(`${args.quote}`, "i");
       let matches = allQuotes.filter((q) => query.test(q));
       if (matches.length > 0) {
@@ -146,6 +149,9 @@ class QuoteCommand extends Command {
     if (args.purge && !args.add && !args.remove && !args.list && !args.index && !args.search) {
       if (!message.member.hasPermission("MANAGE_MESSAGES")) {
         return message.channel.send(`Sorry, you do not have the \`Manage Messages\` permisson.`);
+      }
+      if (!args.quote) {
+        return message.channel.send("Please add a search query.");
       }
       let query = new RegExp(`${args.quote}`, "i");
       let matches = allQuotes.filter((q) => query.test(q));

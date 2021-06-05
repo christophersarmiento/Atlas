@@ -99,13 +99,14 @@ module.exports = async function paginate(array, elements_per_page, starting_page
           });
           break;
         case "exit":
-          await button.message.delete();
+          await collector.stop();
           break;
         case "confirm":
           purge_quotes(client, array, og, message);
           if (!button.replied) {
-            button.defer();
+            await button.defer();
           }
+          await collector.stop();
           break;
       }
     });
