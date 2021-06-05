@@ -11,7 +11,7 @@ class Atlas extends AkairoClient {
   constructor() {
     super(
       {
-        ownerID: process.env.OWNER_ID,
+        ownerID: process.env.OWNER_ID
       },
       {}
     );
@@ -21,12 +21,10 @@ class Atlas extends AkairoClient {
     this.constants = {
       infoEmbed: [155, 300, 200],
       errorEmbed: [255, 0, 0],
-      successEmbed: [0, 255, 0],
+      successEmbed: [0, 255, 0]
     };
 
-    this.failure = new MessageEmbed()
-      .setColor(this.constants.errorEmbed)
-      .setDescription("Uh oh! Something went wrong.");
+    this.failure = new MessageEmbed().setColor(this.constants.errorEmbed).setDescription("Uh oh! Something went wrong.");
 
     this.commandHandler = new CommandHandler(this, {
       directory: path.resolve(__dirname, "commands"),
@@ -36,15 +34,15 @@ class Atlas extends AkairoClient {
         }
         return ".";
       },
-      allowMention: true,
+      allowMention: true
     });
 
     this.inhibitorHandler = new InhibitorHandler(this, {
-      directory: path.resolve(__dirname, "inhibitors"),
+      directory: path.resolve(__dirname, "inhibitors")
     });
 
     this.listenerHandler = new ListenerHandler(this, {
-      directory: path.resolve(__dirname, "listeners"),
+      directory: path.resolve(__dirname, "listeners")
     });
 
     this.commandHandler.loadAll();
@@ -55,7 +53,7 @@ class Atlas extends AkairoClient {
     this.listenerHandler.setEmitters({
       commandHandler: this.commandHandler,
       inhibitorHandler: this.inhibitorHandler,
-      listenerHandler: this.listenerHandler,
+      listenerHandler: this.listenerHandler
     });
 
     this.inhibitorHandler.loadAll();
@@ -63,9 +61,7 @@ class Atlas extends AkairoClient {
   }
 
   async error_message(message) {
-    return new MessageEmbed()
-      .setColor(this.constants.errorEmbed)
-      .setDescription(message);
+    return new MessageEmbed().setColor(this.constants.errorEmbed).setDescription(message);
   }
 
   async login(token) {
@@ -77,11 +73,12 @@ class Atlas extends AkairoClient {
 mongoose
   .connect(process.env.DB_URL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   })
   .then(() => {
     console.log("✅ Connected to database");
     const client = new Atlas();
+    require("discord-buttons")(client);
     client.login(process.env.DISCORD_TOKEN);
   })
   .catch((err) => console.error(err));

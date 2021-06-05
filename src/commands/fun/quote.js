@@ -1,69 +1,69 @@
+const path = require("path");
 const { Command } = require("discord-akairo");
 const { MessageEmbed } = require("discord.js");
-const Pagination = require("discord-paginationembed");
+const paginator = require(path.resolve(__dirname, "../../utilities/pagination"));
 
-// TODO: manage permissions for certain arguments
 class QuoteCommand extends Command {
   constructor() {
     super("quote", {
       aliases: ["quote", "q"],
       category: "fun",
       description: {
-        content:
-          "Displays a random quote from the server.",
+        content: "Displays a random quote from the server.",
         usage: ["add <quote>", "remove <quote number>", "<quote number>", "search <query>", "list"],
-        examples: [
-          'add "The unexamined life is not worth living." - Socrates',
-          "remove 12",
-          "2",
-          "search socrates",
-          "list",
-        ],
+        examples: ['add "The unexamined life is not worth living." - Socrates', "remove 12", "2", "search socrates", "list"]
       },
       args: [
         {
           id: "add",
           type: "string",
           match: "flag",
-          flag: "add",
+          flag: "add"
         },
         {
           id: "list",
           type: "string",
           match: "flag",
-          flag: "list",
+          flag: "list"
         },
         {
           id: "remove",
           type: "string",
           match: "flag",
-          flag: "remove",
+          flag: "remove"
         },
         {
           id: "search",
           type: "string",
           match: "flag",
-          flag: "search",
+          flag: "search"
         },
         {
           id: "purge",
           type: "string",
           match: "flag",
-          flag: "purge",
+          flag: "purge"
         },
         {
           id: "index",
           type: "integer",
-          index: 0,
+          index: 0
         },
         {
           id: "quote",
           type: "string",
-          match: "rest",
-        },
+          match: "rest"
+        }
       ],
-      channel: "text",
+      channel: "text"
     });
+  }
+
+  async slice_quotes(quotes, page_index) {
+    var page = quotes.slice(10 * (page_index - 1), 10 * page_index);
+    page = page.map((q) => `\`${quotes.indexOf(q) + 1}.\` ${q}`);
+    page = page.join("\n");
+    return page;
   }
 
   async exec(message, args) {
@@ -97,22 +97,10 @@ class QuoteCommand extends Command {
 
     // list quotes
     if (args.list && !args.add && !args.remove && !args.index && !args.search && !args.purge) {
-      if (allQuotes.length != 0) {
-        const QuoteList = new Pagination.FieldsEmbed()
-          .setArray(allQuotes)
-          .setAuthorizedUsers([message.author.id])
-          .setChannel(message.channel)
-          .setElementsPerPage(10)
-          .setPage(1)
-          .setPageIndicator("footer")
-          .setDeleteOnTimeout(true)
-          .formatField("Quotes", (i) => `\`${allQuotes.indexOf(i) + 1}.\` ${i}`);
-
-        QuoteList.embed.setColor(this.client.constants.infoEmbed);
-        await QuoteList.build();
-      } else {
-        message.channel.send("There are no quotes for this server yet!");
+      if (allQuotes.length <= 0) {
+        return message.channel.send("There are no quotes for this server yet!");
       }
+      paginator(allQuotes, 10, 1, this.client.constants.infoEmbed, message, "Quotes");
     }
 
     // quote remove
@@ -121,7 +109,6 @@ class QuoteCommand extends Command {
         return message.channel.send(`Sorry, you do not have the \`Manage Messages\` permisson.`);
       }
       if (args.index != undefined) {
-        console.log("triggered");
         let index = args.index - 1;
         if (index >= 0 && index < allQuotes.length) {
           allQuotes.splice(index, 1);
@@ -137,8 +124,7 @@ class QuoteCommand extends Command {
         } else {
           return message.channel.send(`Please enter a number between 1 and ${allQuotes.length}`);
         }
-      }
-      else {
+      } else {
         console.log("args index not found");
       }
       return;
@@ -149,24 +135,9 @@ class QuoteCommand extends Command {
       let query = new RegExp(`${args.quote}`, "i");
       let matches = allQuotes.filter((q) => query.test(q));
       if (matches.length > 0) {
-        let QuoteList = new Pagination.FieldsEmbed()
-          .setArray(matches)
-          .setAuthorizedUsers([message.author.id])
-          .setChannel(message.channel)
-          .setElementsPerPage(10)
-          .setPage(1)
-          .setPageIndicator("footer")
-          .setDeleteOnTimeout(true)
-          .formatField(`${matches.length} Matching Quotes`, (i) => `\`${allQuotes.indexOf(i) + 1}.\` ${i}`);
-
-        QuoteList.embed.setColor(this.client.constants.infoEmbed);
-
-        await QuoteList.build();
+        paginator(matches, 10, 1, this.client.constants.infoEmbed, message, `${matches.length} Matching Quotes`, allQuotes);
       } else {
-        let msg = new MessageEmbed()
-          .setColor(this.client.constants.infoEmbed)
-          .setDescription(`Could not find any quotes matching \`${args.quote}\``)
-          .setTitle("404!");
+        let msg = new MessageEmbed().setColor(this.client.constants.infoEmbed).setDescription(`Could not find any quotes matching \`${args.quote}\``).setTitle("404!");
         return message.channel.send(msg);
       }
     }
@@ -179,42 +150,9 @@ class QuoteCommand extends Command {
       let query = new RegExp(`${args.quote}`, "i");
       let matches = allQuotes.filter((q) => query.test(q));
       if (matches.length > 0) {
-        let QuoteList = new Pagination.FieldsEmbed()
-          .setArray(matches)
-          .setAuthorizedUsers([message.author.id])
-          .setChannel(message.channel)
-          .setElementsPerPage(10)
-          .setPage(1)
-          .setPageIndicator("footer")
-          .formatField("Quotes", (i) => `\`${allQuotes.indexOf(i) + 1}.\` ${i}`)
-          .setContent(`React with ✅ to remove all ${matches.length} matches`)
-          .setEmojisFunctionAfterNavigation(true)
-          .setTimeout(300000)
-          .setDeleteOnTimeout(true)
-          .addFunctionEmoji("✅", (_) => {
-            matches.forEach((q) => {
-              allQuotes.splice(allQuotes.indexOf(q), 1);
-            });
-            this.client.settings
-              .set(message.guild.id, "quotes", allQuotes)
-              .then(() =>
-                message.channel
-                  .send(`Successfully removed ${matches.length} quotes`)
-                  .then((m) => m.delete({ timeout: 3000 }))
-              )
-              .catch(() => {
-                message.channel.send(this.client.failure);
-              });
-          });
-
-        QuoteList.embed.setColor(this.client.constants.infoEmbed);
-
-        await QuoteList.build();
+        paginator(matches, 10, 1, this.client.constants.infoEmbed, message, `${matches.length} Matching Quotes`, allQuotes, true, this.client);
       } else {
-        let msg = new MessageEmbed()
-          .setColor(this.client.constants.infoEmbed)
-          .setDescription(`Could not find any quotes matching \`${args.quote}\``)
-          .setTitle("404!");
+        let msg = new MessageEmbed().setColor(this.client.constants.infoEmbed).setDescription(`Could not find any quotes matching \`${args.quote}\``).setTitle("404!");
         return message.channel.send(msg);
       }
     }
