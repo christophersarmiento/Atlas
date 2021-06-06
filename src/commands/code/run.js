@@ -17,6 +17,7 @@ class ExecuteCommand extends Command {
       }
     });
     this.get_langs();
+    this.create_dir();
   }
 
   async get_langs() {
@@ -26,6 +27,12 @@ class ExecuteCommand extends Command {
         this.description.languages[runtime.language].version = runtime.version;
       });
     });
+  }
+
+  async create_dir() {
+    if (!fs.existsSync(path.resolve(__dirname, "../../../temp"))) {
+      fs.mkdirSync(path.resolve(__dirname, "../../../temp"));
+    }
   }
 
   async exec(message) {
