@@ -26,6 +26,6 @@
     "moment": "^2.29.1",
     "mongodb": "^3.6.8",
     "mongoose": "^5.12.11",
-    "tiktok-scraper": "^1.4.35"
+    "tiktok-scraper": "^1.4.36"
   }
 }
