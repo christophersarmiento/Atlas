@@ -13,11 +13,11 @@ class TikTokListener extends Listener {
   }
 
   embed_tt(url, message, loading_message, retry_button, button_filter, retry_count = 0) {
-    tiktok
-      .getVideoMeta(url)
+    axios
+      .get("https://dev.360noscope.com/api/v1/metadata/tiktok?url=" + encodeURIComponent(url))
       .then((response) => {
-        axios.get(response.collector[0].videoUrl, { responseType: "arraybuffer", headers: response.headers }).then((r) => {
-          message.channel.send({ files: [{ attachment: r.data, name: response.collector[0].id + ".mp4" }] });
+        axios.get(response.data.itemInfo.itemStruct.video.downloadAddr, { responseType: "arraybuffer", headers: response.headers }).then((r) => {
+          message.channel.send({ files: [{ attachment: r.data, name: response.data.itemInfo.itemStruct.id + ".mp4" }] });
         });
         loading_message.delete();
       })
