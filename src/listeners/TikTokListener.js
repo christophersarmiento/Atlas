@@ -1,6 +1,5 @@
 const { Listener } = require("discord-akairo");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
-const { MessageButton, MessageActionRow } = require("discord-buttons");
+const { MessageButton } = require("discord-buttons");
 const axios = require("axios");
 
 class TikTokListener extends Listener {
@@ -15,9 +14,7 @@ class TikTokListener extends Listener {
     axios
       .get("https://dev.360noscope.com/api/v1/metadata/tiktok?url=" + encodeURIComponent(url))
       .then((response) => {
-        axios.get(response.data.itemInfo.itemStruct.video.downloadAddr, { responseType: "arraybuffer", headers: response.headers }).then((r) => {
-          message.channel.send({ files: [{ attachment: r.data, name: response.data.itemInfo.itemStruct.id + ".mp4" }] });
-        });
+        message.channel.send({ files: [{ attachment: response.data.itemInfo.itemStruct.video.downloadAddr, name: response.data.itemInfo.itemStruct.id + ".mp4" }] });
         loading_message.delete();
       })
       .catch((err) => {
