@@ -1,5 +1,4 @@
 const { Listener } = require("discord-akairo");
-const tiktok = require("tiktok-scraper");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { MessageButton, MessageActionRow } = require("discord-buttons");
 const axios = require("axios");
