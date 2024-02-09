@@ -20,7 +20,7 @@ npm run watch:start
 
 ### Production
 
-You can also run Atlas with `npm dev`, this will first build the source code and then run `node ./dist/index.js`. But this is not the recommended way to run a bot in production.
+You can also run Atlas with `npm dev`, this will first build the source code and then run `node ./dist/main.js`. But this is not the recommended way to run a bot in production.
 
 ## License
 
